@@ -15,7 +15,8 @@
   limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>org.apache.rocketmq</groupId>
         <artifactId>rocketmq-all</artifactId>
@@ -26,11 +27,20 @@
     <packaging>jar</packaging>
     <artifactId>rocketmq-client</artifactId>
     <name>rocketmq-client ${project.version}</name>
+    <version>4.9.4-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
     </properties>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>gitea</id>
+            <name>gitea</name>
+            <url>http://10.0.0.3/api/packages/sacoc/maven</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -41,8 +51,33 @@
                     <groupId>io.netty</groupId>
                     <artifactId>netty-tcnative</artifactId>
                 </exclusion>
+                <!--排除自动的项目依赖-->
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>rocketmq-remoting</artifactId>
+                </exclusion>
+            </exclusions>
+            <version>4.9.4</version>
+        </dependency>
+
+        <!--手动指定项目的依赖-->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>rocketmq-remoting</artifactId>
+            <version>4.9.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>rocketmq-logging</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>rocketmq-logging</artifactId>
+            <version>4.9.4</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
